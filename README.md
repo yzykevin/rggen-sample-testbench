@@ -161,10 +161,10 @@ $ make ral_bit_bash_test SIMULATOR=vivado GUI=on
 You can post your questions, feedbacks, bug reports, etc. by using following ways.
 
 * [GitHub Issue Tracker](https://github.com/rggen/rggen-sample-testbench/issues)
-* [Chat Room](https://gitter.im/rggen/rggen)
+* [Discord](https://discord.com/invite/KWya83ZZxr)
 * [Mailing List](https://groups.google.com/d/forum/rggen)
 * [Mail](mailto:rggen@googlegroups.com)
 
 ## Copyright & License
 
-Copyright &copy; 2019-2025 Taichi Ishitani. This testbench is licensed under the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.
+Copyright &copy; 2019-2026 Taichi Ishitani. This testbench is licensed under the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.

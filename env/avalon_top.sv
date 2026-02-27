@@ -118,21 +118,24 @@ module top;
   logic [1:0]                     register_13_bit_field_8;
   logic                           register_13_bit_field_8_hw_write_enable;
   logic [1:0]                     register_13_bit_field_8_hw_write_data;
-  logic                           register_14_bit_field_0;
+  logic [7:0]                     register_14_bit_field_0;
+  logic [7:0]                     register_14_bit_field_1;
   logic                           register_15_bit_field_0;
+  logic                           register_16_bit_field_0;
+  logic [15:0]                    register_17_bit_field_0;
 `ifdef RGGEN_VERYL
-  rggen_rggen_bus_if #(8, 32)     register_17_bus_if();
+  rggen_rggen_bus_if #(8, 32)     register_19_bus_if();
 `elsif RGGEN_SYSTEMVERILOG
-  rggen_bus_if #(8, 32)           register_17_bus_if();
+  rggen_bus_if #(8, 32)           register_19_bus_if();
 `else
-  logic                           register_17_valid;
-  logic [1:0]                     register_17_access;
-  logic [7:0]                     register_17_address;
-  logic [31:0]                    register_17_write_data;
-  logic [3:0]                     register_17_strobe;
-  logic                           register_17_ready;
-  logic [1:0]                     register_17_status;
-  logic [31:0]                    register_17_read_data;
+  logic                           register_19_valid;
+  logic [1:0]                     register_19_access;
+  logic [7:0]                     register_19_address;
+  logic [31:0]                    register_19_write_data;
+  logic [3:0]                     register_19_strobe;
+  logic                           register_19_ready;
+  logic [1:0]                     register_19_status;
+  logic [31:0]                    register_19_read_data;
 `endif
 
   initial begin
@@ -184,7 +187,7 @@ module top;
     register_13_bit_field_7_hw_set          = register_13_bit_field_3_read_trigger;
     register_13_bit_field_8_hw_write_enable = register_13_bit_field_3_write_trigger;
     register_13_bit_field_8_hw_write_data   = register_13_bit_field_3;
-    register_14_bit_field_0                 = register_0_bit_field_0[0];
+    register_15_bit_field_0                 = register_0_bit_field_0[0];
   end
 
   block_0 #(
@@ -331,30 +334,38 @@ module top;
     .o_register_13_bit_field_8                  (register_13_bit_field_8                  ),
     .i_register_13_bit_field_8_hw_write_enable  (register_13_bit_field_8_hw_write_enable  ),
     .i_register_13_bit_field_8_hw_write_data    (register_13_bit_field_8_hw_write_data    ),
-    .i_register_14_bit_field_0                  (register_14_bit_field_0                  ),
-    .o_register_15_bit_field_0                  (register_15_bit_field_0                  ),
+    .i_register_14_bit_field_0_up               (register_0_bit_field_0[0]                ),
+    .i_register_14_bit_field_0_down             (register_0_bit_field_1[0]                ),
+    .i_register_14_bit_field_0_clear            (register_3_bit_field_3_trigger[0]        ),
+    .o_register_14_bit_field_0                  (register_14_bit_field_0                  ),
+    .i_register_14_bit_field_1_up               (register_0_bit_field_0[0]                ),
+    .i_register_14_bit_field_1_down             (register_0_bit_field_1[0]                ),
+    .o_register_14_bit_field_1                  (register_14_bit_field_1                  ),
+    .i_register_15_bit_field_0                  (register_15_bit_field_0                  ),
+    .o_register_16_bit_field_0                  (register_16_bit_field_0                  ),
+    .o_register_17_bit_field_0                  (register_17_bit_field_0                  ),
 `ifdef SV_OR_VERYL
-    .register_17_bus_if                         (register_17_bus_if                       )
+    .register_19_bus_if                         (register_19_bus_if                       )
 `else
-    .o_register_17_valid                        (register_17_valid                        ),
-    .o_register_17_access                       (register_17_access                       ),
-    .o_register_17_address                      (register_17_address                      ),
-    .o_register_17_data                         (register_17_write_data                   ),
-    .o_register_17_strobe                       (register_17_strobe                       ),
-    .i_register_17_ready                        (register_17_ready                        ),
-    .i_register_17_status                       (register_17_status                       ),
-    .i_register_17_data                         (register_17_read_data                    )
+    .o_register_19_valid                        (register_19_valid                        ),
+    .o_register_19_access                       (register_19_access                       ),
+    .o_register_19_address                      (register_19_address                      ),
+    .o_register_19_data                         (register_19_write_data                   ),
+    .o_register_19_strobe                       (register_19_strobe                       ),
+    .i_register_19_ready                        (register_19_ready                        ),
+    .i_register_19_status                       (register_19_status                       ),
+    .i_register_19_data                         (register_19_read_data                    )
 `endif
   );
 
 `ifdef RGGEN_VERYL
   avalon_bridge u_bridge (
-    .bus_if     (register_17_bus_if ),
+    .bus_if     (register_19_bus_if ),
     .avalon_if  (avalon_if[1]       )
   );
 `elsif RGGEN_SYSTEMVERILOG
   rggen_avalon_bridge u_bridge (
-    .bus_if     (register_17_bus_if ),
+    .bus_if     (register_19_bus_if ),
     .avalon_if  (avalon_if[1]       )
   );
 `else
@@ -362,14 +373,14 @@ module top;
     .ADDRESS_WIDTH  (8  ),
     .BUS_WIDTH      (32 )
   ) u_bridge (
-    .i_bus_valid      (register_17_valid                ),
-    .i_bus_access     (register_17_access               ),
-    .i_bus_address    (register_17_address              ),
-    .i_bus_write_data (register_17_write_data           ),
-    .i_bus_strobe     (register_17_strobe               ),
-    .o_bus_ready      (register_17_ready                ),
-    .o_bus_status     (register_17_status               ),
-    .o_bus_read_data  (register_17_read_data            ),
+    .i_bus_valid      (register_19_valid                ),
+    .i_bus_access     (register_19_access               ),
+    .i_bus_address    (register_19_address              ),
+    .i_bus_write_data (register_19_write_data           ),
+    .i_bus_strobe     (register_19_strobe               ),
+    .o_bus_ready      (register_19_ready                ),
+    .o_bus_status     (register_19_status               ),
+    .o_bus_read_data  (register_19_read_data            ),
     .o_read           (avalon_if[1].read                ),
     .o_write          (avalon_if[1].write               ),
     .o_address        (avalon_if[1].address[7:0]        ),
